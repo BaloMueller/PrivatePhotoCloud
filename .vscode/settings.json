@@ -4,5 +4,6 @@
   "azureFunctions.projectRuntime": "~3",
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "yarn prune",
-  "azureFunctions.postDeployTask": "yarn install"
+  "azureFunctions.postDeployTask": "yarn install",
+  "azureFunctions.projectSubpath": "api"
 }
