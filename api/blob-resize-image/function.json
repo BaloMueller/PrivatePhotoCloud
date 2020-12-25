@@ -1,0 +1,26 @@
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "private/Kamera-Uploads/{name}",
+      "connection": "AZURE_STORAGE_CONNECTION_STRING"
+    },
+
+    {
+      "name": "myInputBlob",
+      "type": "blob",
+      "path": "private/Kamera-Uploads/{name}",
+      "connection": "AZURE_STORAGE_CONNECTION_STRING",
+      "direction": "in"
+    },
+    {
+      "name": "myOutputBlob",
+      "type": "blob",
+      "path": "private/Kamera-Uploads/.thumb/{name}",
+      "connection": "AZURE_STORAGE_CONNECTION_STRING",
+      "direction": "out"
+    }
+  ]
+}
