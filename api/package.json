@@ -1,7 +1,9 @@
 {
-  "name": "src_funcs",
+  "name": "PrivatePhotoCloud-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "All dynamic functions to access and modify the photos on the storage repository.",
+  "author": "Sebastian Müller <s@mlr.digital>",
+  "license": "GPL-3.0",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
