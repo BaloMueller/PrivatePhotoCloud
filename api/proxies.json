@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/proxies",
+  "proxies": {
+    "PathToParamProxy": {
+      "matchCondition": {
+          "route": "/api/redirect/{*restOfPath}"
+      },
+      "responseOverrides": {
+        "response.statusCode": "301",
+        "response.headers.Location": "https://smueller.blob.core.windows.net/private/{restOfPath}?sv=2018-03-28&si=private-16DFDAC0F1D&sr=c&sig=q2RCCPFOJiTqRf6%2BTdULjBdk39Ir5m7DwINAidpTYHw%3D"
+      }
+    }
+  }
+}
