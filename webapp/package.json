@@ -9,11 +9,13 @@
   "private": false,
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch",
     "start": "webpack-dev-server --progress"
   },
   "dependencies": {
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-images": "^1.1.7",
     "react-photo-gallery": "^8.0.0"
   },
   "devDependencies": {

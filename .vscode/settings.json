@@ -5,5 +5,10 @@
   "debug.internalConsoleOptions": "neverOpen",
   "azureFunctions.preDeployTask": "yarn prune",
   "azureFunctions.postDeployTask": "yarn install",
-  "azureFunctions.projectSubpath": "api"
+  "azureFunctions.projectSubpath": "api",
+  "liveServer.settings.proxy": {
+    "enable": true,
+    "baseUri": "/api",
+    "proxyUri": "http://127.0.0.1:7071/api"
+ }
 }

@@ -11,7 +11,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    publicPath: '/',
+    publicPath: './',
   },
   target: 'web',
   devServer: {

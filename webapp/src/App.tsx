@@ -1,45 +1,56 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import Gallery from 'react-photo-gallery';
+import Carousel, { Modal, ModalGateway } from "react-images";
 
-const sampledata = {
-    groups: [
-    "Kamera-Uploads/2015-02/.gallery/"
-    ],
-    items: [
-    {
-    name: "2015-02-28 16.50.24-1.jpg",
-    asset: "https://smueller.blob.core.windows.net/private/Kamera-Uploads%2F2015-02%2F2015-02-28%2016.50.24-1.jpg",
-    url: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F2015-02-28%2016.50.24-1.jpg",
-    thumbnail: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F.gallery%2F2015-02-28%2016.50.24-1.jpg",
-    contentType: "image/jpeg",
-    created: "2019-01-21T14:08:08.000Z"
-    },
-    {
-    name: "2015-02-28 16.50.24.jpg",
-    asset: "https://smueller.blob.core.windows.net/private/Kamera-Uploads%2F2015-02%2F2015-02-28%2016.50.24.jpg",
-    url: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F2015-02-28%2016.50.24.jpg",
-    thumbnail: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F.gallery%2F2015-02-28%2016.50.24.jpg",
-    contentType: "image/jpeg",
-    created: "2019-01-21T14:08:08.000Z"
-    },
-    {
-    name: "2015-02-28 18.14.01.jpg",
-    asset: "https://smueller.blob.core.windows.net/private/Kamera-Uploads%2F2015-02%2F2015-02-28%2018.14.01.jpg",
-    url: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F2015-02-28%2018.14.01.jpg",
-    thumbnail: "http://localhost:7071/api/redirect/Kamera-Uploads%2F2015-02%2F.gallery%2F2015-02-28%2018.14.01.jpg",
-    contentType: "image/jpeg",
-    created: "2019-01-21T14:08:08.000Z"
-    }
-]};
 
 export default function App()
 {
-    let photos = [];
-    useEffect(() => {
-        fetch('http://localhost:7071/api/storage_controller?q=Kamera-Uploads%2F2015-02%2F')
-            .then(response => response.json())
-            .then(data => photos = sampledata.items);
-    })
+    const [photos, setPhotos] = useState([]);
+    const [currentImage, setCurrentImage] = useState(0);
+    const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
-    return <Gallery photos={photos} />;
+    useEffect(() => {
+        fetch('/api/storage_controller?q=Kamera-Uploads%2F2015-02%2F')
+            .then(response => response.json())
+            .then(data => data.items.map((item) => ({ 
+                src: item.src, 
+                srcSet: [
+                    `${item.thumbnail} 600w`,
+                    `${item.url} 1600w`,
+                ],
+                sizes: ["(min-width: 550px) 30vw,(min-width: 1024px) 20vw,100vw"],
+                width: 600,
+                height: 600,
+                key: item.name,
+            })))
+            .then(data => setPhotos(data))
+    }, [])
+
+    const openLightbox = useCallback((event, { photo, index }) => {
+        setCurrentImage(index);
+        setViewerIsOpen(true);
+      }, []);
+
+    const closeLightbox = () => {
+        setCurrentImage(0);
+        setViewerIsOpen(false);
+    };
+
+    return <div>
+            <Gallery photos={photos} onClick={openLightbox} />
+            <ModalGateway>
+            {viewerIsOpen ? (
+            <Modal onClose={closeLightbox}>
+                <Carousel
+                currentIndex={currentImage}
+                views={photos.map(x => ({
+                    ...x,
+                    srcset: x.srcSet,
+                    caption: x.title
+                }))}
+                />
+            </Modal>
+            ) : null}
+        </ModalGateway>
+        </div>;
 }
