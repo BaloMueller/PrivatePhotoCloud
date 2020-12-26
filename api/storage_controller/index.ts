@@ -29,7 +29,9 @@ const main: AzureFunction = async function (context: Context, req: HttpRequest) 
 
     for await (const item of response) {
         if (item.kind === "prefix") {
-            groups.push(item.name);
+            if(!item.name.endsWith(".gallery/")) {
+                groups.push(item.name);
+            }
         } else {
             blobs.push(item);
         }
